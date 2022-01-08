@@ -4,7 +4,6 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
-// material
 import {
   Card,
   Table,
@@ -20,19 +19,17 @@ import {
   TableContainer,
   TablePagination
 } from '@mui/material';
-// components
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
-//
-// import users from '../_mocks_/user';
-import { getAllUser } from './services/user.service';
+import useDashboard from '../hooks/useDashboard';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
+  { id: 'mssv', label: 'MSSV', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'dob', label: 'DOB', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
@@ -75,13 +72,8 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [users, setUsers] = useState([]);
+  const { users } = useDashboard();
 
-  useEffect(() => {
-    getAllUser().then((results) => {
-      setUsers(results.data);
-    });
-  }, []);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -112,7 +104,6 @@ export default function User() {
         selected.slice(selectedIndex + 1)
       );
     }
-    console.log('newSelected', newSelected);
     setSelected(newSelected);
   };
 
@@ -154,7 +145,8 @@ export default function User() {
 
         <Card>
           <UserListToolbar
-            numSelected={selected.length}
+            setSelected={setSelected}
+            selected={selected}
             filterName={filterName}
             onFilterName={handleFilterByName}
           />
@@ -170,12 +162,13 @@ export default function User() {
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
+                  checked
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, email, avatarUrl, dob } = row;
+                      const { id, name, role, status, email, avatarUrl, dob, mssv } = row;
                       const isItemSelected = selected.indexOf(email) !== -1;
 
                       return (
@@ -188,10 +181,10 @@ export default function User() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
-                            <Checkbox
+                            {/* <Checkbox
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, email)}
-                            />
+                            /> */}
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
@@ -202,6 +195,7 @@ export default function User() {
                             </Stack>
                           </TableCell>
                           <TableCell align="left">{email}</TableCell>
+                          <TableCell align="left">{mssv}</TableCell>
                           <TableCell align="left">{role}</TableCell>
                           <TableCell align="left">{dob}</TableCell>
                           <TableCell align="left">

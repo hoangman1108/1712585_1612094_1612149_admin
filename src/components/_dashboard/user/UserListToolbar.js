@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   InputAdornment
 } from '@mui/material';
+import useDashboard from '../../../hooks/useDashboard';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,17 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({ setSelected, selected, filterName, onFilterName }) {
+  const numSelected = selected.length;
+  const { deleteAdmin } = useDashboard();
+
+  const handleDelete = () => {
+    selected.forEach((element) => {
+      deleteAdmin(element);
+    });
+    setSelected([]);
+  };
+
   return (
     <RootStyle
       sx={{
@@ -74,7 +85,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <Icon icon={trash2Fill} />
           </IconButton>
         </Tooltip>

@@ -34,6 +34,14 @@ const handlers = {
       admins: [...state.admins, admin]
     };
   },
+  DELETE_ADMIN: (state, action) => {
+    const { email } = action.payload;
+    const newAdmins = state.admins.filter((element) => element.email !== email);
+    return {
+      ...state,
+      admins: [...newAdmins]
+    };
+  },
   LIST_USER: (state, action) => {
     const { users } = action.payload;
 
@@ -68,6 +76,8 @@ const DashboardContext = createContext({
   ...initialState,
   getAdmins: () => Promise.resolve(),
   getUsers: () => Promise.resolve(),
+  createAdmin: () => Promise.resolve(),
+  deleteAdmin: () => Promise.resolve(),
   getClasses: () => Promise.resolve()
 });
 
@@ -76,11 +86,11 @@ function DashboardProvider({ children }) {
 
   const getAdmins = async () => {
     try {
-      const admins = await axios.get('/users/role/admin');
+      const { data } = await axios.get('/users/role/admin');
       dispatch({
         type: 'LIST_ADMIN',
         payload: {
-          admins
+          admins: data
         }
       });
     } catch (error) {
@@ -93,13 +103,48 @@ function DashboardProvider({ children }) {
     }
   };
 
+  const createAdmin = async (account) => {
+    try {
+      const { data } = await axios.post('/users/admin/create', {
+        ...account,
+        role: 'admin'
+      });
+      dispatch({
+        type: 'CREATE_ADMIN',
+        payload: { admin: data }
+      });
+      return 'CREATE_SUCCESS';
+    } catch (err) {
+      return {
+        error: err.message
+      };
+    }
+  };
+
+  const deleteAdmin = async (email) => {
+    try {
+      await axios.post('/users/admin/delete', {
+        email
+      });
+      dispatch({
+        type: 'DELETE_ADMIN',
+        payload: { email }
+      });
+    } catch (err) {
+      dispatch({
+        type: 'DELETE_ADMIN',
+        payload: { email: null }
+      });
+    }
+  };
+
   const getUsers = async () => {
     try {
-      const users = await axios.get('/users');
+      const { data } = await axios.get('users/admin/all-user');
       dispatch({
         type: 'LIST_USER',
         payload: {
-          users
+          users: data
         }
       });
     } catch (error) {
@@ -114,16 +159,17 @@ function DashboardProvider({ children }) {
 
   const getClasses = async () => {
     try {
-      const classes = await axios.get('/classes');
+      const { data } = await axios.get('/classes');
+      console.log('response: ', data);
       dispatch({
-        type: 'LIST_CLASSES',
+        type: 'LIST_CLASS',
         payload: {
-          classes
+          classes: data
         }
       });
     } catch (error) {
       dispatch({
-        type: 'LIST_CLASSES',
+        type: 'LIST_CLASS',
         payload: {
           classes: []
         }
@@ -134,8 +180,8 @@ function DashboardProvider({ children }) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        await getClasses();
         await getAdmins();
+        await getUsers();
         await getClasses();
       } catch (err) {
         console.error(err);
@@ -150,7 +196,9 @@ function DashboardProvider({ children }) {
       }
     };
 
-    initialize();
+    setTimeout(() => {
+      initialize();
+    }, 300);
   }, []);
 
   return (
@@ -159,7 +207,9 @@ function DashboardProvider({ children }) {
         ...state,
         getAdmins,
         getClasses,
-        getUsers
+        getUsers,
+        deleteAdmin,
+        createAdmin
       }}
     >
       {children}

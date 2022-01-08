@@ -15,12 +15,13 @@ import { DesktopDatePicker, LoadingButton } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import ErrorMessage from '../ErrorMessage';
-import { createAdminAccount } from '../../pages/services/user.service';
+import useDashboard from '../../hooks/useDashboard';
 
 export default function CreateAccountModal({ open, setOpen }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [date, setDate] = React.useState(new Date('1-1-2000'));
   const [msg, setMsg] = React.useState('');
+  const { createAdmin } = useDashboard();
   const handleClose = () => {
     setOpen(false);
   };
@@ -43,21 +44,15 @@ export default function CreateAccountModal({ open, setOpen }) {
     },
     validationSchema: CreateAdminSchema,
     onSubmit: () => {
-      createAdminAccount({ ...values, dob: date }).then((response) => {
-        if (response.err) {
-          setMsg(response.err);
+      createAdmin({ ...values, dob: date }).then((response) => {
+        if (response.error) {
+          setMsg(response.error);
           setSubmitting(false);
           return;
         }
-        const { data } = response;
-        if (data.message) {
-          if (data.message === 'CREATE_ADMIN_ACCOUNT_SUCCESS') {
-            // window.location.reload();
-            handleClose();
-            return;
-          }
-          setMsg(data.message);
+        if (response) {
           setSubmitting(false);
+          handleClose();
         }
       });
     }

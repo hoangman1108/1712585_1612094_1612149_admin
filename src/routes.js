@@ -6,8 +6,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import AuthGuard from './guards/AuthGuard';
 //
 import Login from './pages/Login';
-import Products from './pages/Products';
-import Blog from './pages/Blog';
+import Classes from './pages/Classes';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import Admin from './pages/Admin';
@@ -27,8 +26,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/admin" replace /> },
         { path: 'user', element: <User /> },
         { path: 'admin', element: <Admin /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'class', element: <Classes /> }
       ]
     },
     {

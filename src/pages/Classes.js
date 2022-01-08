@@ -29,12 +29,11 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import useDashboard from '../hooks/useDashboard';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'Email', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'dob', label: 'DOB', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'name', label: 'Tên lớp', alignRight: false },
+  { id: 'codeJoin', label: 'Code Join', alignRight: false },
+  { id: 'numTeacher', label: 'Teachers', alignRight: false },
+  { id: 'numStudent', label: 'Students', alignRight: false },
+  { id: 'numAssignment', label: 'Assignments', alignRight: false }
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -66,7 +65,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Admin() {
+export default function Classes() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -74,21 +73,13 @@ export default function Admin() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openCreate, setOpenCreate] = useState(false);
-  const { admins } = useDashboard();
+  const { classes } = useDashboard();
+  console.log('classes: ', classes);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = admins.map((n) => n.email);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event, email) => {
@@ -122,9 +113,9 @@ export default function Admin() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - admins.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - classes.length) : 0;
 
-  const filteredUsers = applySortFilter(admins, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(classes, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -133,7 +124,7 @@ export default function Admin() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Danh sách Admin
+            Danh sách Lớp học
           </Typography>
           <Button
             variant="contained"
@@ -142,7 +133,7 @@ export default function Admin() {
             onClick={() => setOpenCreate(true)}
             startIcon={<Icon icon={plusFill} />}
           >
-            Thêm admin mới
+            Thêm lớp mới
           </Button>
         </Stack>
 
@@ -161,17 +152,18 @@ export default function Admin() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={admins.length}
+                  rowCount={classes.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  checked
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, email, avatarUrl, dob } = row;
-                      const isItemSelected = selected.indexOf(email) !== -1;
+                      console.log('row: ', row);
+                      const { id, name, codeJoin, teachers, students, assignments } = row;
+                      const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
                         <TableRow
@@ -183,34 +175,27 @@ export default function Admin() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
-                            <Checkbox
+                            {/* <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, email)}
-                            />
+                              onChange={(event) => handleClick(event, name)}
+                            /> */}
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
+                          <TableCell component="th" scope="row" padding="left">
+                            <Stack direction="row" alignItems="left" spacing={2}>
+                              {/* <Avatar alt={name} src={avatarUrl} /> */}
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{email}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{dob}</TableCell>
-                          <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
-
+                          <TableCell align="left">{codeJoin}</TableCell>
+                          <TableCell align="left">{teachers?.length || 0}</TableCell>
+                          <TableCell align="left">{students?.length || 0}</TableCell>
+                          <TableCell align="left">{assignments?.length || 0}</TableCell>
+                          {/* 
                           <TableCell align="right">
                             <UserMoreMenu />
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       );
                     })}
@@ -236,7 +221,7 @@ export default function Admin() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={admins.length}
+            count={classes.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
