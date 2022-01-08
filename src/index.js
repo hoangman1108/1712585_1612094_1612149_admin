@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContenxt';
-//
+import { DashboardProvider } from './contexts/DashboardContext';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
@@ -14,11 +14,13 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <AuthProvider>
-    <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </HelmetProvider>
+    <DashboardProvider>
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>
+    </DashboardProvider>
   </AuthProvider>,
   document.getElementById('root')
 );
