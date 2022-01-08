@@ -21,6 +21,7 @@ import {
   TablePagination
 } from '@mui/material';
 // components
+import CreateAccountModal from '../components/modals/CreateAccountAdminModal';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -76,6 +77,7 @@ export default function Admin() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
+  const [openCreate, setOpenCreate] = useState(false);
 
   useEffect(() => {
     getUserByRole('admin').then((results) => {
@@ -140,15 +142,16 @@ export default function Admin() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Danh sách user
+            Danh sách Admin
           </Typography>
           <Button
             variant="contained"
             component={RouterLink}
             to="#"
+            onClick={() => setOpenCreate(true)}
             startIcon={<Icon icon={plusFill} />}
           >
-            Thêm user mới
+            Thêm admin mới
           </Button>
         </Stack>
 
@@ -249,6 +252,7 @@ export default function Admin() {
           />
         </Card>
       </Container>
+      <CreateAccountModal open={openCreate} setOpen={setOpenCreate} />
     </Page>
   );
 }
