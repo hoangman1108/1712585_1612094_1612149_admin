@@ -208,7 +208,7 @@ export default function User() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu role={role} email={email} />
                           </TableCell>
                         </TableRow>
                       );

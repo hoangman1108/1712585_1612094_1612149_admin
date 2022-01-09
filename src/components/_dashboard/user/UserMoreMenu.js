@@ -7,12 +7,17 @@ import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import DeleteModel from './components/DeleteModel';
 import DetailModel from './components/DetailModel';
+import ManualMapModel from './components/ManualMapModel';
+import cubeOutline from '@iconify/icons-eva/cube-outline';
 
-export default function UserMoreMenu({ email }) {
+
+export default function UserMoreMenu({ email, role }) {
+  const isTeacher = role === "teacher" ? true : false;
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
+  const [openManualMap, setOpenManualMap] = useState(false);
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -24,7 +29,7 @@ export default function UserMoreMenu({ email }) {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%' }
+          sx: { width: 240, maxWidth: '100%' }
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -42,9 +47,25 @@ export default function UserMoreMenu({ email }) {
           </ListItemIcon>
           <ListItemText primary="View Detail" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+
+        {
+          !isTeacher ? (
+            <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenManualMap(true)}>
+              <ListItemIcon>
+                <Icon icon={cubeOutline} width={24} height={24} />
+              </ListItemIcon>
+              <ListItemText primary="Manual Map StudentID" primaryTypographyProps={{ variant: 'body2' }} />
+            </MenuItem>
+          ) : ""
+        }
       </Menu>
       <DeleteModel open={openDelete} setOpen={setOpenDelete} email={email} />
       <DetailModel open={openDetail} setOpen={setOpenDetail} />
+      {
+        !isTeacher ? (
+          <ManualMapModel open={openManualMap} setOpen={setOpenManualMap} />
+        ) : ""
+      }
     </>
   );
 }
