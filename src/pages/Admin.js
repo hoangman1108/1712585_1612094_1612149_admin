@@ -209,7 +209,7 @@ export default function Admin() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu email={email} />
                           </TableCell>
                         </TableRow>
                       );

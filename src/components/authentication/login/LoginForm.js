@@ -18,12 +18,14 @@ import {
 import { LoadingButton } from '@mui/lab';
 import ErrorMessage from '../../ErrorMessage';
 import useAuth from '../../../hooks/useAuth';
+import useDashboard from '../../../hooks/useDashboard';
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated } = useAuth();
   const { login } = useAuth();
+  const { getAdmins, getUsers, getClasses } = useDashboard();
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
@@ -34,6 +36,12 @@ export default function LoginForm() {
       navigate('/dashboard');
     }
   }, [isAuthenticated]);
+
+  const callData = async () => {
+    await getAdmins();
+    await getUsers();
+    await getClasses();
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -49,8 +57,12 @@ export default function LoginForm() {
             remember: response.error
           });
           setSubmitting(false);
+        } else {
+          setTimeout(() => {
+            callData();
+            navigate('/dashboard');
+          }, 300);
         }
-        navigate('/dashboard');
       });
     }
   });

@@ -161,7 +161,6 @@ export default function Classes() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      console.log('row: ', row);
                       const { id, name, codeJoin, teachers, students, assignments } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
