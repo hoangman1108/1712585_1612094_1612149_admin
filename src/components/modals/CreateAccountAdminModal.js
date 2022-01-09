@@ -16,6 +16,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import ErrorMessage from '../ErrorMessage';
 import useDashboard from '../../hooks/useDashboard';
+import moment from "moment";
 
 export default function CreateAccountModal({ open, setOpen }) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -44,7 +45,8 @@ export default function CreateAccountModal({ open, setOpen }) {
     },
     validationSchema: CreateAdminSchema,
     onSubmit: () => {
-      createAdmin({ ...values, dob: date }).then((response) => {
+      const formatDate = moment(date).format("DD/MM/YYYY");
+      createAdmin({ ...values, dob: formatDate }).then((response) => {
         if (response.error) {
           setMsg(response.error);
           setSubmitting(false);
