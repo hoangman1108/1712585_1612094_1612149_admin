@@ -11,7 +11,7 @@ import ManualMapModel from './components/ManualMapModel';
 import cubeOutline from '@iconify/icons-eva/cube-outline';
 
 
-export default function UserMoreMenu({ email, role }) {
+export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email }) {
   const isTeacher = role === "teacher" ? true : false;
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function UserMoreMenu({ email, role }) {
       <DetailModel open={openDetail} setOpen={setOpenDetail} />
       {
         !isTeacher ? (
-          <ManualMapModel open={openManualMap} setOpen={setOpenManualMap} />
+          <ManualMapModel open={openManualMap} setOpen={setOpenManualMap} info={{ id, name, dob, mssv, role, phone }} />
         ) : ""
       }
     </>
