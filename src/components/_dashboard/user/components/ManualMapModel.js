@@ -27,6 +27,7 @@ export default function ManualMapModel({ open, setOpen, info }) {
     onSubmit: () => {
       info.mssv = values.mssv;
       info.phone = info.phone ? info.phone : "";
+      info.status = "banned";
       updateStudentID(info.id, info).then((response) => {
         setSubmitting(false);
         if (response?.error) {

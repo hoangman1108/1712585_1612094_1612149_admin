@@ -8,6 +8,7 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 import DeleteModel from './components/DeleteModel';
 import DetailModel from './components/DetailModel';
 import ManualMapModel from './components/ManualMapModel';
+import ActionStatusModel from './components/ActionStatusModel';
 import cubeOutline from '@iconify/icons-eva/cube-outline';
 
 
@@ -18,6 +19,7 @@ export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, 
   const [openDelete, setOpenDelete] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [openManualMap, setOpenManualMap] = useState(false);
+  const [openActionStatus, setOpenActionStatus] = useState(false);
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -58,6 +60,13 @@ export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, 
             </MenuItem>
           ) : ""
         }
+
+        <MenuItem MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenActionStatus(true)}>
+          <ListItemIcon>
+            <Icon icon={eyeOutline} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Action Status" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
       </Menu>
       <DeleteModel open={openDelete} setOpen={setOpenDelete} email={email} />
       <DetailModel open={openDetail} setOpen={setOpenDetail} />
@@ -66,6 +75,7 @@ export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, 
           <ManualMapModel open={openManualMap} setOpen={setOpenManualMap} info={{ id, name, dob, mssv, role, phone, email, status }} />
         ) : ""
       }
+      <ActionStatusModel open={openActionStatus} setOpen={setOpenActionStatus} info={{ id, name, dob, mssv, role, phone, email, status }} />
     </>
   );
 }

@@ -181,7 +181,6 @@ function DashboardProvider({ children }) {
   const updateStudentID = async (id, objUser) => {
     try {
       delete objUser.email;
-      delete objUser.status;
       const { data } = await axios.put(`/users/${id}`, objUser);
       console.log('response: ', data);
       dispatch({
