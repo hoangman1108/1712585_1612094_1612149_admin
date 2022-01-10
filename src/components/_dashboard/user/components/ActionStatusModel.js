@@ -20,7 +20,7 @@ export default function ActionStatusModel({ open, setOpen, info }) {
   const handleChange = (event) => {
     const status = event.target.value;
     setStatusSelected(status);
-    updateStudentID(info.id, { status }).then((response) => {});
+    updateStudentID(info.id, { status }).then(() => {});
   }
 
   return (

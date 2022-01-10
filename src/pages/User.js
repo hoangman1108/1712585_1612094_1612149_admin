@@ -193,7 +193,7 @@ export default function User() {
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={((status === 'banned' || status === 'locked') && 'error') || (status === 'unactive' && 'warning') || 'success'}
                             >
                               {sentenceCase(status)}
                             </Label>

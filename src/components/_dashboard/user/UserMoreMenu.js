@@ -10,6 +10,7 @@ import DetailModel from './components/DetailModel';
 import ManualMapModel from './components/ManualMapModel';
 import ActionStatusModel from './components/ActionStatusModel';
 import cubeOutline from '@iconify/icons-eva/cube-outline';
+import castFill from '@iconify/icons-eva/cast-fill';
 
 
 export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, status }) {
@@ -63,7 +64,7 @@ export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, 
 
         <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenActionStatus(true)}>
           <ListItemIcon>
-            <Icon icon={eyeOutline} width={24} height={24} />
+            <Icon icon={castFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Action Status" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
