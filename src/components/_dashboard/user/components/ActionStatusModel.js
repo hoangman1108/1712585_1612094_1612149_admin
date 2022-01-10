@@ -11,35 +11,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function ActionStatusModel({ open, setOpen, info }) {
   const { updateStudentID } = useDashboard();
-  const { checked, setChecked } = React.useState(info.status);
+  const [statusSelected, setStatusSelected] = React.useState(info?.status ? info.status : "");
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    const status = event.target.value;
+    setStatusSelected(status);
+    updateStudentID(info.id, { status }).then((response) => {});
   }
-
-//   const formik = useFormik({
-//     initialValues: {
-//       mssv: info?.mssv ? info.mssv : ""
-//     },
-//     onSubmit: () => {
-//       info.mssv = values.mssv;
-//       info.phone = info.phone ? info.phone : "";
-//       info.status = "banned";
-//       updateStudentID(info.id, info).then((response) => {
-//         if (response?.error) {
-//           setMsg(response.error);
-//           return;
-//         }
-//         if (response) {
-//           handleClose();
-//         }
-//       });
-//     }
-//   });
 
   return (
     <div>
@@ -54,25 +36,25 @@ export default function ActionStatusModel({ open, setOpen, info }) {
         <FormGroup aria-label="position" row>
                 <FormControlLabel
                     value="active"
-                    control={<Checkbox checked={checked} onChange={handleChange} />}
+                    control={<Checkbox checked={statusSelected === "active"} onChange={handleChange} />}
                     label="Active"
                     labelPlacement="end"
                 />
                 <FormControlLabel
                     value="unactive"
-                    control={<Checkbox checked={checked} onChange={handleChange} />}
+                    control={<Checkbox checked={statusSelected === "unactive"} onChange={handleChange} />}
                     label="Unactive"
                     labelPlacement="end"
                 />
                 <FormControlLabel
                     value="locked"
-                    control={<Checkbox checked={checked} onChange={handleChange} />}
+                    control={<Checkbox checked={statusSelected === "locked"} onChange={handleChange} />}
                     label="Locked"
                     labelPlacement="end"
                 />
                 <FormControlLabel
                     value="banned"
-                    control={<Checkbox checked={checked} onChange={handleChange} />}
+                    control={<Checkbox checked={statusSelected === "banned"} onChange={handleChange} />}
                     label="Banned"
                     labelPlacement="end"
                 />

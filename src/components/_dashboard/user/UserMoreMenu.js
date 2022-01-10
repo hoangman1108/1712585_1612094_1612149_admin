@@ -61,12 +61,13 @@ export default function UserMoreMenu({ id, name, dob, mssv, role, phone, email, 
           ) : ""
         }
 
-        <MenuItem MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenActionStatus(true)}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenActionStatus(true)}>
           <ListItemIcon>
             <Icon icon={eyeOutline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Action Status" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+
       </Menu>
       <DeleteModel open={openDelete} setOpen={setOpenDelete} email={email} />
       <DetailModel open={openDetail} setOpen={setOpenDetail} />
