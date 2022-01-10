@@ -168,7 +168,6 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      console.log(row);
                       const { id, name, role, status, email, avatarUrl, dob, mssv, phone } = row;
                       const isItemSelected = selected.indexOf(email) !== -1;
 
@@ -209,7 +208,7 @@ export default function User() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu role={role} email={email} mssv={mssv} id={id} name={name} dob={dob} phone={phone} />
+                            <UserMoreMenu role={role} email={email} mssv={mssv} id={id} name={name} dob={dob} phone={phone} status={status} />
                           </TableCell>
                         </TableRow>
                       );

@@ -78,7 +78,8 @@ const DashboardContext = createContext({
   getUsers: () => Promise.resolve(),
   createAdmin: () => Promise.resolve(),
   deleteAdmin: () => Promise.resolve(),
-  getClasses: () => Promise.resolve()
+  getClasses: () => Promise.resolve(),
+  updateStudentID: () => Promise.resolve()
 });
 
 function DashboardProvider({ children }) {
@@ -177,6 +178,26 @@ function DashboardProvider({ children }) {
     }
   };
 
+  const updateStudentID = async (id, objUser) => {
+    try {
+      delete objUser.email;
+      delete objUser.status;
+      const { data } = await axios.put(`/users/${id}`, objUser);
+      console.log('response: ', data);
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: {
+          user: data
+        }
+      });
+      return "UPDATE_SUCCESS";
+    } catch (error) {
+      return {
+        error: error.message
+      };
+    }
+  }
+
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -209,7 +230,8 @@ function DashboardProvider({ children }) {
         getClasses,
         getUsers,
         deleteAdmin,
-        createAdmin
+        createAdmin,
+        updateStudentID
       }}
     >
       {children}

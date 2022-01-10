@@ -7,44 +7,39 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useDashboard from '../../../../hooks/useDashboard';
 import { useFormik, Form, FormikProvider } from 'formik';
-import * as Yup from 'yup';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import ErrorMessage from '../../../../components/ErrorMessage';
 
 export default function ManualMapModel({ open, setOpen, info }) {
-  const { deleteAdmin } = useDashboard();
+  const { updateStudentID } = useDashboard();
   const [msg, setMsg] = React.useState('');
-  console.log("info: ", info);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const StudentIDSchema = Yup.object().shape({
-    mssv: Yup.string().required('StudentID is required')
-  });
-
   const formik = useFormik({
     initialValues: {
-      mssv: info.mssv
+      mssv: info?.mssv ? info.mssv : ""
     },
-    validationSchema: StudentIDSchema,
     onSubmit: () => {
-    //   createAdmin({ ...values, dob: formatDate }).then((response) => {
-    //     if (response.error) {
-    //       setMsg(response.error);
-    //       setSubmitting(false);
-    //       return;
-    //     }
-    //     if (response) {
-    //       setSubmitting(false);
-    //       handleClose();
-    //     }
-    //   });
+      info.mssv = values.mssv;
+      info.phone = info.phone ? info.phone : "";
+      updateStudentID(info.id, info).then((response) => {
+        setSubmitting(false);
+        if (response?.error) {
+          setMsg(response.error);
+          return;
+        }
+        if (response) {
+          handleClose();
+        }
+      });
     }
   });
+
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, setSubmitting } = formik;
 
   return (
