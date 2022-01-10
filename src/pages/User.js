@@ -133,14 +133,6 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Danh sách user
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            Thêm user mới
-          </Button>
         </Stack>
 
         <Card>
