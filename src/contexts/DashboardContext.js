@@ -161,7 +161,6 @@ function DashboardProvider({ children }) {
   const getClasses = async () => {
     try {
       const { data } = await axios.get('/classes');
-      console.log('response: ', data);
       dispatch({
         type: 'LIST_CLASS',
         payload: {
@@ -182,7 +181,6 @@ function DashboardProvider({ children }) {
     try {
       delete objUser.email;
       const { data } = await axios.put(`/users/${id}`, objUser);
-      console.log('response: ', data);
       dispatch({
         type: 'UPDATE_USER',
         payload: {

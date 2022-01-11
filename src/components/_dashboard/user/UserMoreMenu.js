@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
 import eyeOutline from "@iconify/icons-eva/eye-outline";
-import { Link as RouterLink } from "react-router-dom";
 import trash2Outline from "@iconify/icons-eva/trash-2-outline";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 import {
@@ -28,7 +27,6 @@ export default function UserMoreMenu({
   email,
   status,
 }) {
-  console.log("role: ", role);
   const isStudent = role === "student" ? true : false;
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
