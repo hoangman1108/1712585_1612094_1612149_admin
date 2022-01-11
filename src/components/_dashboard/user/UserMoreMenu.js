@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
 import eyeOutline from "@iconify/icons-eva/eye-outline";
-import { Link as RouterLink } from "react-router-dom";
 import trash2Outline from "@iconify/icons-eva/trash-2-outline";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 import {
@@ -28,7 +27,7 @@ export default function UserMoreMenu({
   email,
   status,
 }) {
-  const isTeacher = role === "teacher" ? true : false;
+  const isStudent = role === "student" ? true : false;
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -77,7 +76,7 @@ export default function UserMoreMenu({
           />
         </MenuItem>
 
-        {!isTeacher ? (
+        {isStudent ? (
           <MenuItem
             sx={{ color: "text.secondary" }}
             onClick={() => setOpenManualMap(true)}
@@ -113,7 +112,7 @@ export default function UserMoreMenu({
         setOpen={setOpenDetail}
         info={{ id, name, dob, mssv, role, phone, email, status }}
       />
-      {!isTeacher ? (
+      {isStudent ? (
         <ManualMapModel
           open={openManualMap}
           setOpen={setOpenManualMap}

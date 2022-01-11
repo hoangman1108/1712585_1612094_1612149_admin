@@ -1,16 +1,10 @@
 import { filter } from "lodash";
 import { Icon } from "@iconify/react";
-import { sentenceCase } from "change-case";
 import { useState, useRef } from "react";
-import plusFill from "@iconify/icons-eva/plus-fill";
-import { Link as RouterLink } from "react-router-dom";
 import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -23,13 +17,11 @@ import {
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 import CreateAccountModal from "../components/modals/CreateAccountAdminModal";
 import Page from "../components/Page";
-import Label from "../components/Label";
 import Scrollbar from "../components/Scrollbar";
 import SearchNotFound from "../components/SearchNotFound";
 import {
   UserListHead,
-  UserListToolbar,
-  UserMoreMenu,
+  UserListToolbar
 } from "../components/_dashboard/user";
 
 import useDashboard from "../hooks/useDashboard";
@@ -85,7 +77,6 @@ export default function Classes() {
   const [openCreate, setOpenCreate] = useState(false);
   const ref = useRef(null);
   const { classes } = useDashboard();
-  console.log("classes: ", classes);
   const [isOpen, setIsOpen] = useState(false);
 
   const [info, setInfo] = useState({});
@@ -96,23 +87,23 @@ export default function Classes() {
     setOrderBy(property);
   };
 
-  const handleClick = (event, email) => {
-    const selectedIndex = selected.indexOf(email);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, email);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
+  // const handleClick = (event, email) => {
+  //   const selectedIndex = selected.indexOf(email);
+  //   let newSelected = [];
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, email);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(
+  //       selected.slice(0, selectedIndex),
+  //       selected.slice(selectedIndex + 1)
+  //     );
+  //   }
+  //   setSelected(newSelected);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -150,7 +141,7 @@ export default function Classes() {
           <Typography variant="h4" gutterBottom>
             Danh sách Lớp học
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             component={RouterLink}
             to="#"
@@ -158,7 +149,7 @@ export default function Classes() {
             startIcon={<Icon icon={plusFill} />}
           >
             Thêm lớp mới
-          </Button>
+          </Button> */}
         </Stack>
 
         <Card>

@@ -10,11 +10,8 @@ export default function DetailModel({ open, setOpen, info }) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log("info ne", info);
 
   const { name, codeJoin, teachers, students, assignments } = info || null;
-
-  console.log(info);
 
   return (
     <div>
