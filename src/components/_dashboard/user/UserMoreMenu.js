@@ -28,7 +28,8 @@ export default function UserMoreMenu({
   email,
   status,
 }) {
-  const isTeacher = role === "teacher" ? true : false;
+  console.log("role: ", role);
+  const isStudent = role === "student" ? true : false;
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -77,7 +78,7 @@ export default function UserMoreMenu({
           />
         </MenuItem>
 
-        {!isTeacher ? (
+        {isStudent ? (
           <MenuItem
             sx={{ color: "text.secondary" }}
             onClick={() => setOpenManualMap(true)}
@@ -113,7 +114,7 @@ export default function UserMoreMenu({
         setOpen={setOpenDetail}
         info={{ id, name, dob, mssv, role, phone, email, status }}
       />
-      {!isTeacher ? (
+      {isStudent ? (
         <ManualMapModel
           open={openManualMap}
           setOpen={setOpenManualMap}

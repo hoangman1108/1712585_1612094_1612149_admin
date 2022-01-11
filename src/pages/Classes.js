@@ -150,7 +150,7 @@ export default function Classes() {
           <Typography variant="h4" gutterBottom>
             Danh sách Lớp học
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             component={RouterLink}
             to="#"
@@ -158,7 +158,7 @@ export default function Classes() {
             startIcon={<Icon icon={plusFill} />}
           >
             Thêm lớp mới
-          </Button>
+          </Button> */}
         </Stack>
 
         <Card>
