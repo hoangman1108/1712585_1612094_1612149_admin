@@ -1,35 +1,12 @@
-import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha } from '@mui/material/styles';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+import { Button, Box, Divider, Typography, Avatar, IconButton } from '@mui/material';
 // components
 import useAuth from '../../hooks/useAuth';
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
-
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: homeFill,
-    linkTo: '/'
-  },
-  {
-    label: 'Profile',
-    icon: personFill,
-    linkTo: '#'
-  },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: '#'
-  }
-];
 
 // ----------------------------------------------------------------------
 
